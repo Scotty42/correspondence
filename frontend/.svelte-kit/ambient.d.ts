@@ -48,7 +48,6 @@ declare module '$env/static/private' {
 	export const npm_package_name: string;
 	export const LANG: string;
 	export const npm_lifecycle_script: string;
-	export const SHELL: string;
 	export const npm_package_version: string;
 	export const npm_lifecycle_event: string;
 	export const npm_config_globalconfig: string;
@@ -112,7 +111,6 @@ declare module '$env/dynamic/private' {
 		npm_package_name: string;
 		LANG: string;
 		npm_lifecycle_script: string;
-		SHELL: string;
 		npm_package_version: string;
 		npm_lifecycle_event: string;
 		npm_config_globalconfig: string;
