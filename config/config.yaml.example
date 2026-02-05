@@ -1,0 +1,51 @@
+server:
+  host: "0.0.0.0"
+  port: 8080
+  debug: false
+  log_level: "info"
+
+database:
+  url: "sqlite+aiosqlite:///data/korrespondenz.sqlite"
+
+typst:
+  binary: "/usr/local/bin/typst"
+  templates_dir: "/opt/korrespondenz/templates"
+  output_dir: "/opt/korrespondenz/data/documents"
+
+sender:
+  name: "Your Company Name"
+  address:
+    street: "Street 123"
+    zip: "12345"
+    city: "Your City"
+    country: "Germany"
+  contact:
+    phone: "+49 XXX XXXXXXX"
+    email: "info@example.com"
+    website: "https://example.com"
+  bank:
+    iban: "DEXX XXXX XXXX XXXX XXXX XX"
+    bic: "XXXXXXXX"
+    bank_name: "Your Bank"
+  tax:
+    ustid: "DEXXXXXXXXX"
+    steuernummer: "XXX/XXX/XXXXX"
+  kleinunternehmer: false
+
+sender_private:
+  name: "Your Name"
+  address:
+    street: "Street 123"
+    zip: "12345"
+    city: "Your City"
+
+ollama:
+  enabled: true
+  url: "http://ollama.lan.internal:11434"
+  model: "gemma2-small-ctx:latest"
+  timeout: 120
+
+paperless:
+  enabled: true
+  url: "http://paperless.lan.internal:8000"
+  verify_ssl: false
