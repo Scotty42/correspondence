@@ -1,0 +1,86 @@
+2:54:57 PM [vite] (client) Pre-transform error: Transform failed with 1 error:
+/opt/korrespondenz/frontend/src/lib/api/client.ts:98:26: ERROR: Expected "(" but found ")"
+  Plugin: vite:esbuild
+  File: /opt/korrespondenz/frontend/src/lib/api/client.ts:98:26
+  
+  Expected "(" but found ")"
+  96 |    get: (id: number) => request<Contact>(`/contacts/${id}`),
+  97 |    
+  98 |    create: (data: <Contact>) => 
+     |                            ^
+  99 |      request<Contact>('/contacts/', {
+  100|        method: 'POST',
+  
+2:54:57 PM [vite] (client) Pre-transform error: Transform failed with 1 error:
+/opt/korrespondenz/frontend/src/lib/api/client.ts:98:26: ERROR: Expected "(" but found ")"
+  Plugin: vite:esbuild
+  File: /opt/korrespondenz/frontend/src/lib/api/client.ts:98:26
+  
+  Expected "(" but found ")"
+  96 |    get: (id: number) => request<Contact>(`/contacts/${id}`),
+  97 |    
+  98 |    create: (data: <Contact>) => 
+     |                            ^
+  99 |      request<Contact>('/contacts/', {
+  100|        method: 'POST',
+  
+2:54:57 PM [vite] Internal server error: Transform failed with 1 error:
+/opt/korrespondenz/frontend/src/lib/api/client.ts:98:26: ERROR: Expected "(" but found ")"
+  Plugin: vite:esbuild
+  File: /opt/korrespondenz/frontend/src/lib/api/client.ts:98:26
+  
+  Expected "(" but found ")"
+  96 |    get: (id: number) => request<Contact>(`/contacts/${id}`),
+  97 |    
+  98 |    create: (data: <Contact>) => 
+     |                            ^
+  99 |      request<Contact>('/contacts/', {
+  100|        method: 'POST',
+  
+      at failureErrorWithLog (/opt/korrespondenz/frontend/node_modules/esbuild/lib/main.js:1467:15)
+      at /opt/korrespondenz/frontend/node_modules/esbuild/lib/main.js:736:50
+      at responseCallbacks.<computed> (/opt/korrespondenz/frontend/node_modules/esbuild/lib/main.js:603:9)
+      at handleIncomingPacket (/opt/korrespondenz/frontend/node_modules/esbuild/lib/main.js:658:12)
+      at Socket.readFromStdout (/opt/korrespondenz/frontend/node_modules/esbuild/lib/main.js:581:7)
+      at Socket.emit (node:events:524:28)
+      at addChunk (node:internal/streams/readable:561:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+      at Readable.push (node:internal/streams/readable:392:5)
+      at Pipe.onStreamRead (node:internal/stream_base_commons:191:23)
+2:55:07 PM [vite] (ssr) Error when evaluating SSR module /src/routes/contacts/+page.svelte: Transform failed with 1 error:
+/opt/korrespondenz/frontend/src/lib/api/client.ts:98:26: ERROR: Expected "(" but found ")"
+  Plugin: vite:esbuild
+  File: /opt/korrespondenz/frontend/src/lib/api/client.ts:98:26
+  
+  Expected "(" but found ")"
+  96 |    get: (id: number) => request<Contact>(`/contacts/${id}`),
+  97 |    
+  98 |    create: (data: <Contact>) => 
+     |                            ^
+  99 |      request<Contact>('/contacts/', {
+  100|        method: 'POST',
+  
+      at failureErrorWithLog (/opt/korrespondenz/frontend/node_modules/esbuild/lib/main.js:1467:15)
+      at /opt/korrespondenz/frontend/node_modules/esbuild/lib/main.js:736:50
+      at responseCallbacks.<computed> (/opt/korrespondenz/frontend/node_modules/esbuild/lib/main.js:603:9)
+      at handleIncomingPacket (/opt/korrespondenz/frontend/node_modules/esbuild/lib/main.js:658:12)
+      at Socket.readFromStdout (/opt/korrespondenz/frontend/node_modules/esbuild/lib/main.js:581:7)
+      at Socket.emit (node:events:524:28)
+      at addChunk (node:internal/streams/readable:561:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+      at Readable.push (node:internal/streams/readable:392:5)
+      at Pipe.onStreamRead (node:internal/stream_base_commons:191:23)
+
+[1;31m[500] GET /contacts[0m
+Error: Transform failed with 1 error:
+/opt/korrespondenz/frontend/src/lib/api/client.ts:98:26: ERROR: Expected "(" but found ")"
+    at failureErrorWithLog (/opt/korrespondenz/frontend/node_modules/esbuild/lib/main.js:1467:15)
+    at /opt/korrespondenz/frontend/node_modules/esbuild/lib/main.js:736:50
+    at responseCallbacks.<computed> (/opt/korrespondenz/frontend/node_modules/esbuild/lib/main.js:603:9)
+    at handleIncomingPacket (/opt/korrespondenz/frontend/node_modules/esbuild/lib/main.js:658:12)
+    at Socket.readFromStdout (/opt/korrespondenz/frontend/node_modules/esbuild/lib/main.js:581:7)
+    at Socket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:191:23)
