@@ -6,7 +6,7 @@ from functools import lru_cache
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 import yaml
-
+import os
 
 class ServerSettings(BaseSettings):
     host: str = "0.0.0.0"
@@ -16,7 +16,11 @@ class ServerSettings(BaseSettings):
 
 
 class DatabaseSettings(BaseSettings):
-    url: str = "sqlite+aiosqlite:///data/korrespondenz.sqlite"
+    # allow overriding via env var KORRESPONDENZ_DATABASE_URL
+    url: str = Field(
+        default="sqlite+aiosqlite:///data/korrespondenz.sqlite",
+        validation_alias="KORRESPONDENZ_DATABASE_URL",
+    )
 
 
 class TypstSettings(BaseSettings):
@@ -104,14 +108,22 @@ class Settings(BaseSettings):
     
     @classmethod
     def from_yaml(cls, path: str = "/opt/korrespondenz/config/config.yaml"):
-        """Lädt Konfiguration aus YAML-Datei"""
+        """Lädt Konfiguration aus YAML-Datei und überschreibt mit ENV wenn gesetzt"""
         config_path = Path(path)
         if config_path.exists():
             with open(config_path) as f:
-                data = yaml.safe_load(f)
-                return cls(**data)
-        return cls()
-    
+                data = yaml.safe_load(f) or {}
+                settings = cls(**data)
+        else:
+            settings = cls()
+
+        # ENV overrides (CI / smoke)
+        db_url = os.getenv("KORRESPONDENZ_DATABASE_URL")
+        if db_url:
+            settings.database.url = db_url
+
+        return settings
+
     def get_sender(self, letter_type: str = "business") -> dict:
         """
         Gibt die passenden Absenderdaten zurück.

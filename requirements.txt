@@ -6,6 +6,7 @@ python-multipart==0.0.22
 # Datenvalidierung
 pydantic==2.10.4
 pydantic-settings==2.7.1
+pydantic[email]
 
 # Datenbank
 sqlalchemy==2.0.36
