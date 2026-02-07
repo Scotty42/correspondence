@@ -33,7 +33,7 @@ npm run build
 
 echo "[deploy] run config unit test (fast)"
 cd "${ROOT}"
-"${ROOT}/.venv/bin/python" -m pytest -q tests/test_settings_db.py
+PYTHONPATH=/opt/korrespondenz "${ROOT}/.venv/bin/python" -m pytest -q tests/test_settings_db.py
 
 echo "[deploy] restart services"
 systemctl restart korrespondenz.service

@@ -14,6 +14,6 @@ npm run build
 
 echo "[check-fast] settings tests"
 cd "${ROOT}"
-"${ROOT}/.venv/bin/python" -m pytest -q tests/test_settings_db.py
+PYTHONPATH=/opt/korrespondenz "${ROOT}/.venv/bin/python" -m pytest -q tests/test_settings_db.py
 
 echo "[check-fast] OK"
