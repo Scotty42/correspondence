@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
 import yaml
 import os
+from dotenv import load_dotenv
 
 class ServerSettings(BaseModel):
     host: str = "0.0.0.0"
@@ -34,13 +35,8 @@ class TypstSettings(BaseModel):
 class PaperlessSettings(BaseModel):
     enabled: bool = True
     url: str = "http://paperless-ngx.lan.internal:8000"
-    api_token: str = Field(default="", alias="PAPERLESS_API_TOKEN")
+    api_token: str = ""   # value injected in from_yaml()
     verify_ssl: bool = False
-    
-    model_config = SettingsConfigDict(
-        env_file="/opt/korrespondenz/config/secrets.env",
-        extra="ignore"
-    )
 
 
 class OllamaSettings(BaseModel):
@@ -141,11 +137,22 @@ class Settings(BaseSettings):
         if isinstance(database_data, str):
             database_data = {"url": database_data}
 
+        #Load secrets.env (does not overwrite already-set env vars)
+        secrets_path = Path("/opt/korrespondenz/config/secrets.env")
+        if secrets_path.exists():
+            load_dotenv(secrets_path, override=False)
+
+        #Override token info
+        paperless_settings = PaperlessSettings.model_validate(data.get("paperless") or {})
+        token = os.getenv("PAPERLESS_API_TOKEN")
+        if token:
+            paperless_settings.api_token = token
+
         settings = cls(
             server=ServerSettings(**server_data),
             database=db_settings, #DatabaseSettings(**database_data),
             typst=TypstSettings(**typst_data),
-            paperless=PaperlessSettings(**paperless_data),
+            paperless=paperless_settings, #PaperlessSettings(**paperless_data),
             ollama=OllamaSettings(**ollama_data),
             sender=SenderSettings(**sender_data),
             sender_private=SenderPrivateSettings(**sender_private_data),

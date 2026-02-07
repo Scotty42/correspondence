@@ -45,7 +45,7 @@ class PaperlessClient:
                     headers=self.headers,
                     params={"page_size": 1}
                 )
-                return response.status_code == 200
+                return response.status_code in (200, 401, 403)
         except Exception:
             return False
     
