@@ -16,7 +16,7 @@ aiosqlite==0.20.0
 httpx==0.28.1
 
 # PDF-Verarbeitung (falls benötigt)
-pypdf==5.1.0
+pypdf==6.6.2
 
 # Utilities
 python-dotenv==1.0.1
