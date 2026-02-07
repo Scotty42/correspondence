@@ -1047,7 +1047,12 @@ If paperless-ngx is configured:
 
 ---
 
-## Development
+## Development & CI
+
+The project includes lightweight smoke tests (backend + frontend) that verify
+basic startup and health endpoints. Runtime data (SQLite DB, generated PDFs)
+is intentionally excluded from the repository and injected via environment
+configuration to ensure reproducibility and data separation.
 
 ### Running in Development Mode
 
