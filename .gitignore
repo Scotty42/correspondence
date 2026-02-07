@@ -22,11 +22,28 @@ __pycache__/
 # C extensions
 *.so
 
-# Frontend build artifacts
+# Dependencies
 frontend/node_modules/
+
+# SvelteKit / Vite build & cache
 frontend/.svelte-kit/
-frontend/build/
 frontend/.vite/
+frontend/build/
+
+# npm / node tooling
+frontend/.npm/
+frontend/.pnpm-store/
+frontend/.cache/
+
+# npm logs & temp
+frontend/npm-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# OS / editor junk inside frontend
+frontend/.DS_Store
+frontend/.env.local
+frontend/.env.*.local
 
 # Distribution / packaging
 .Python
