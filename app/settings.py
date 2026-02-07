@@ -19,7 +19,7 @@ class ServerSettings(BaseModel):
 class DatabaseSettings(BaseModel):
     # allow overriding via env var KORRESPONDENZ_DATABASE_URL
     url: str = Field(
-        default="sqlite+aiosqlite:///data/korrespondenz.sqlite",
+        default="sqlite+aiosqlite:////opt/korrespondenz/data/korrespondenz.sqlite",
         validation_alias="KORRESPONDENZ_DATABASE_URL",
     )
 
