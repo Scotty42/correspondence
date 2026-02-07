@@ -1,10 +1,15 @@
-# local maintainer tooling
-tools/smoke-backend.sh
-tools/smoke-frontend.sh
+## local maintainer tooling
+#/tools/smoke-backend.sh
+#/tools/smoke-frontend.sh
+#/tools/deploy-local.sh
+#/tools/check-fast.sh
 
 # Configuration files with sensitive data
 config.yaml
 secrets.env
+
+# Backend data
+data/
 
 # Keep examples
 !config.yaml.example
@@ -46,6 +51,7 @@ frontend/.env.local
 frontend/.env.*.local
 
 # Distribution / packaging
+.npm/
 .Python
 build/
 develop-eggs/
