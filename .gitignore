@@ -1,6 +1,6 @@
 # local maintainer tooling
-/tools/smoke-backend.sh
-/tools/smoke-frontend.sh
+tools/smoke-backend.sh
+tools/smoke-frontend.sh
 
 # Configuration files with sensitive data
 config.yaml
@@ -22,9 +22,11 @@ __pycache__/
 # C extensions
 *.so
 
-# frontend build output
+# Frontend build artifacts
+frontend/node_modules/
 frontend/.svelte-kit/
 frontend/build/
+frontend/.vite/
 
 # Distribution / packaging
 .Python
