@@ -1,6 +1,13 @@
 """
 Konfigurationsmanagement für das Korrespondenz-System
 """
+"""
+Configuration design:
+- YAML files define structural configuration
+- secrets.env is loaded explicitly for credentials
+- Environment variables override YAML only where explicitly applied
+- Nested config uses BaseModel (not BaseSettings) to avoid implicit env loading
+"""
 from pathlib import Path
 from functools import lru_cache
 from pydantic import Field
