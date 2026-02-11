@@ -16,4 +16,9 @@ echo "[check-fast] settings tests"
 cd "${ROOT}"
 PYTHONPATH=/opt/korrespondenz "${ROOT}/.venv/bin/python" -m pytest -q tests/test_settings_db.py
 
+echo "[check-fast] contacts tests"
+cd "${ROOT}"
+PYTHONPATH=/opt/korrespondenz "${ROOT}/.venv/bin/python" -m pytest -q tests/test_contacts_regressions.py
+
+
 echo "[check-fast] OK"
