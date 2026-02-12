@@ -34,6 +34,7 @@ frontend/node_modules/
 frontend/.svelte-kit/
 frontend/.vite/
 frontend/build/
+frontend/node_modules/
 
 # npm / node tooling
 frontend/.npm/

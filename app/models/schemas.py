@@ -29,8 +29,21 @@ class ContactCreate(ContactBase):
     pass
 
 
-class ContactUpdate(ContactBase):
-    pass
+class ContactUpdate(BaseModel):
+    contact_type: Optional[str] = None
+    company_name: Optional[str] = None
+    salutation: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    gender: Optional[str] = None
+    street: Optional[str] = None
+    zip_code: Optional[str] = None
+    city: Optional[str] = None
+    country: Optional[str] = None
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
+    customer_number: Optional[str] = None
+    notes: Optional[str] = None
 
 
 class ContactResponse(ContactBase):

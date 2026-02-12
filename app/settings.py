@@ -10,10 +10,12 @@ Configuration design:
 """
 from pathlib import Path
 from functools import lru_cache
-from pydantic import Field
-from pydantic import BaseModel
-from pydantic_settings import BaseSettings, SettingsConfigDict
+
+from pydantic import BaseModel, Field, AliasChoices, ConfigDict
+from pydantic_settings import BaseSettings, SettingsConfigDict 
+
 import yaml
+
 import os
 from dotenv import load_dotenv
 
@@ -26,10 +28,12 @@ class ServerSettings(BaseModel):
 
 class DatabaseSettings(BaseModel):
     # allow overriding via env var KORRESPONDENZ_DATABASE_URL
-    url: str = Field(
-        default="sqlite+aiosqlite:////opt/korrespondenz/data/korrespondenz.sqlite",
-        validation_alias="KORRESPONDENZ_DATABASE_URL",
-    )
+    #url: str = Field(
+    #    default="sqlite+aiosqlite:////opt/korrespondenz/data/korrespondenz.sqlite",
+    #    validation_alias="KORRESPONDENZ_DATABASE_URL",
+    #)
+    url: str = "sqlite+aiosqlite:///data/korrespondenz.sqlite"
+    model_config = ConfigDict(extra="forbid")
 
 
 class TypstSettings(BaseModel):
@@ -102,70 +106,38 @@ class SenderPrivateSettings(BaseModel):
 
 class Settings(BaseSettings):
     """Hauptkonfiguration - lädt aus config.yaml"""
-    server: ServerSettings = ServerSettings()
-    database: DatabaseSettings = DatabaseSettings()
-    typst: TypstSettings = TypstSettings()
-    paperless: PaperlessSettings = PaperlessSettings()
-    ollama: OllamaSettings = OllamaSettings()
-    sender: SenderSettings = SenderSettings()
-    sender_private: SenderPrivateSettings = SenderPrivateSettings()
-    
+    server: ServerSettings = Field(default_factory=ServerSettings)
+    database: DatabaseSettings = Field(default_factory=DatabaseSettings)
+    typst: TypstSettings = Field(default_factory=TypstSettings)
+    paperless: PaperlessSettings = Field(default_factory=PaperlessSettings)
+    ollama: OllamaSettings = Field(default_factory=OllamaSettings)
+    sender: SenderSettings = Field(default_factory=SenderSettings)
+    sender_private: SenderPrivateSettings = Field(default_factory=SenderPrivateSettings)
+   
     @classmethod
     def from_yaml(cls, path: str = "/opt/korrespondenz/config/config.yaml"):
-        """Lädt Konfiguration aus YAML-Datei und überschreibt mit ENV wenn gesetzt"""
         config_path = Path(path)
         data: dict = {}
 
         if config_path.exists():
-            with open(config_path) as f:
-                data = yaml.safe_load(f) or {}
-        
-        database_data = data.get("database")
-
-        # Normalize
-        if isinstance(database_data, str):
-            database_data = {"url": database_data}
-        elif database_data is None:
-            database_data = {}
-
-        # Validate explicitly (no ** unpacking quirks)
-        db_settings = DatabaseSettings.model_validate(database_data)
-
-        # Normalize + explicitly construct nested settings (avoids nested BaseSettings edge cases)
-        server_data = data.get("server") or {}
-        database_data = data.get("database") or {}
-        typst_data = data.get("typst") or {}
-        paperless_data = data.get("paperless") or {}
-        ollama_data = data.get("ollama") or {}
-        sender_data = data.get("sender") or {}
-        sender_private_data = data.get("sender_private") or {}
+            data = yaml.safe_load(config_path.read_text()) or {}
 
         # Support legacy shorthand: database: "<url>"
-        if isinstance(database_data, str):
-            database_data = {"url": database_data}
+        db = data.get("database")
+        if isinstance(db, str):
+            data["database"] = {"url": db}
+        elif db is None:
+            data["database"] = {}
 
-        #Load secrets.env (does not overwrite already-set env vars)
+        # Load secrets.env into process env (optional)
         secrets_path = Path("/opt/korrespondenz/config/secrets.env")
         if secrets_path.exists():
             load_dotenv(secrets_path, override=False)
 
-        #Override token info
-        paperless_settings = PaperlessSettings.model_validate(data.get("paperless") or {})
-        token = os.getenv("PAPERLESS_API_TOKEN")
-        if token:
-            paperless_settings.api_token = token
+        # IMPORTANT: validate dict as a model (no settings sources)
+        settings = cls.model_validate(data)
 
-        settings = cls(
-            server=ServerSettings(**server_data),
-            database=db_settings, #DatabaseSettings(**database_data),
-            typst=TypstSettings(**typst_data),
-            paperless=paperless_settings, #PaperlessSettings(**paperless_data),
-            ollama=OllamaSettings(**ollama_data),
-            sender=SenderSettings(**sender_data),
-            sender_private=SenderPrivateSettings(**sender_private_data),
-        )
-
-        # ENV overrides (CI / smoke)
+        # Explicit env overrides (CI/smoke)
         db_url = os.getenv("KORRESPONDENZ_DATABASE_URL")
         if db_url:
             settings.database.url = db_url
