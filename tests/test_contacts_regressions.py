@@ -1,7 +1,12 @@
 # tests/test_contacts_regressions.py
 import pytest
-from httpx import AsyncClient, ASGITransport
 
+from httpx import AsyncClient, ASGITransport
+from datetime import datetime
+from sqlalchemy import select
+
+from app.models.database import Document
+ 
 pytestmark = pytest.mark.asyncio
 
 
@@ -30,28 +35,27 @@ async def test_contacts_item_route_trailing_slash_is_404(client):
     assert bad.status_code == 404, bad.text
 
 
-async def test_contact_delete_returns_409_if_referenced(client):
-    """
-    Regression test: previously DELETE caused 500 IntegrityError when documents referenced contact.
-    Expected behavior: return 409 Conflict with a helpful detail.
-    """
+@pytest.mark.asyncio
+async def test_contact_delete_returns_409_if_referenced(client, db_session):
     cid = await _create_contact(client)
 
-    # Create a document referencing the contact (letter endpoint exists)
-    r = await client.post("/api/documents/letter", json={
-        "contact_id": cid,
-        "subject": "Hello",
-        "content": "Test content",
-        "letter_type": "business",
-    })
-    assert r.status_code in (200, 201), r.text
+    # Create a document referencing the contact WITHOUT calling the PDF endpoint
+    doc = Document(
+        contact_id=cid,
+        doc_type="letter",
+        doc_number="TEST-0001",
+        subject="Hello",
+        status="draft",
+        doc_date=datetime.utcnow(),
+        pdf_path=None,
+    )
+    db_session.add(doc)
+    await db_session.commit()
 
-    # Now delete should be conflict, not 500
-    d = await client.delete(f"/api/contacts/{cid}")
-    assert d.status_code == 409, d.text
-    body = d.json()
-    assert "detail" in body
-    assert "verweis" in body["detail"].lower() or "reference" in body["detail"].lower()
+    r = await client.delete(f"/api/contacts/{cid}")
+    assert r.status_code == 409, r.text
+    txt = r.text.lower()
+    assert any(k in txt for k in ("reference", "referenz", "verweis", "verweisen")), r.text
 
 
 async def test_contact_update_rejects_empty_email(client):

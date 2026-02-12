@@ -7,8 +7,22 @@ from pathlib import Path
 import pytest
 from httpx import AsyncClient, ASGITransport
 
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.database import get_db
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+
+
+@pytest.fixture
+async def db_session(app) -> AsyncSession:
+    # Use the same dependency that the app uses
+    agen = get_db()
+    session = await agen.__anext__()
+    try:
+        yield session
+    finally:
+        await session.close()
 
 
 @pytest.fixture(scope="session")
