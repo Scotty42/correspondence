@@ -1,6 +1,30 @@
 # Automated Correspondence Management System
 
+[![CI Smoke](https://github.com/Scotty42/correspondence/actions/workflows/ci-smoke.yml/badge.svg?branch=main)](https://github.com/Scotty42/correspondence/actions/workflows/ci-smoke.yml)
+[![codecov](https://codecov.io/gh/Scotty42/correspondence/branch/main/graph/badge.svg)](https://codecov.io/gh/Scotty42/correspondence)
+[![Backend Coverage](https://codecov.io/gh/Scotty42/correspondence/branch/main/graph/badge.svg?flag=backend)](...)
+![Status](https://img.shields.io/badge/status-active-success)
+![Python](https://img.shields.io/badge/python-3.12-blue)
+![License](https://img.shields.io/github/license/Scotty42/correspondence)
+
 A self-hosted web application for creating and managing business and private correspondence (letters, invoices, offers) with template-based PDF generation, LLM assistance, and optional archiving integration.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [LXC Container Setup](#lxc-container-setup)
+- [Backend Architecture](#backend-architecture)
+- [Frontend Architecture](#frontend-architecture)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Development](#development)
+
+---
+
+## Overview
+
 
 ## Table of Contents
 
@@ -42,19 +66,19 @@ This system replaces traditional word processors for correspondence creation by:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                              Browser                                 │
+│                              Browser                                │
 └─────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────┐
-│                         nginx (Port 80)                              │
-│  ┌─────────────┐                            ┌─────────────┐          │
-│  │ / (static)  │ ───────────────────────────▶│ SvelteKit   │          │
-│  └─────────────┘                            └─────────────┘          │
-│  ┌─────────────┐                            ┌─────────────┐          │
-│  │ /api/*      │ ───────────────────────────▶│ FastAPI     │          │
-│  └─────────────┘                            │ (Port 8080) │          │
-│                                             └─────────────┘          │
+│                         nginx (Port 80)                             │
+│  ┌─────────────┐                            ┌─────────────┐         │
+│  │ / (static)  │ ───────────────────────────▶│ SvelteKit   │        │
+│  └─────────────┘                            └─────────────┘         │
+│  ┌─────────────┐                            ┌─────────────┐         │
+│  │ /api/*      │ ───────────────────────────▶│ FastAPI     │        │
+│  └─────────────┘                            │ (Port 8080) │         │
+│                                             └─────────────┘         │
 └─────────────────────────────────────────────────────────────────────┘
                                     │
                     ┌───────────────┼───────────────┐
@@ -66,12 +90,12 @@ This system replaces traditional word processors for correspondence creation by:
                     │                               │
                     ▼                               │
              ┌───────────────────────────────────────────────┐
-             │            PDF Output Directory                │
+             │            PDF Output Directory               │
              └───────────────────────────────────────────────┘
                     │
                     ▼
              ┌───────────────────────────────────────────────┐
-             │        paperless-ngx (Optional)                │
+             │        paperless-ngx (Optional)               │
              └───────────────────────────────────────────────┘
 ```
 
