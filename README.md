@@ -2,7 +2,6 @@
 
 [![CI Smoke](https://github.com/Scotty42/correspondence/actions/workflows/ci-smoke.yml/badge.svg?branch=main)](https://github.com/Scotty42/correspondence/actions/workflows/ci-smoke.yml)
 [![codecov](https://codecov.io/gh/Scotty42/correspondence/branch/main/graph/badge.svg)](https://codecov.io/gh/Scotty42/correspondence)
-[![Backend Coverage](https://codecov.io/gh/Scotty42/correspondence/branch/main/graph/badge.svg?flag=backend)](...)
 ![Status](https://img.shields.io/badge/status-active-success)
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![License](https://img.shields.io/github/license/Scotty42/correspondence)
