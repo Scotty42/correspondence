@@ -14,11 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PYTHONPATH: ${{ github.workspace }}
-      KORRESPONDENZ_DATABASE_URL: sqlite+aiosqlite:///${{ runner.temp }}/korrespondenz.sqlite
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Set DB URL (temp)
+        run: echo "KORRESPONDENZ_DATABASE_URL=sqlite+aiosqlite:///$RUNNER_TEMP/korrespondenz.sqlite" >> $GITHUB_ENV
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -60,6 +62,7 @@ jobs:
           done
           curl -fsS http://127.0.0.1:8080/api/health
           curl -fsS http://127.0.0.1:8080/api/health/services
+
   frontend-smoke:
     runs-on: ubuntu-latest
     defaults:
