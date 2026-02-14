@@ -240,6 +240,12 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
+# Claude Code
+#  Claude Code is Anthropic's official CLI for AI-assisted coding. The .claude/ directory
+#  contains project-specific memory, settings, and session data.
+#  refer to https://github.com/anthropics/claude-code
+.claude/
+
 # Cursor
 #  Cursor is an AI-powered code editor. `.cursorignore` specifies files/directories to
 #  exclude from AI features like autocomplete and code analysis. Recommended for sensitive data
