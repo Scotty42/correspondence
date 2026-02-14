@@ -64,8 +64,15 @@ app.include_router(ai.router, prefix="/api/ai", tags=["KI"])
 
 # Statische Dateien (generierte PDFs)
 documents_path = Path(settings.typst.output_dir)
-documents_path.mkdir(parents=True, exist_ok=True)
-app.mount("/files", StaticFiles(directory=str(documents_path)), name="files")
+try:
+    documents_path.mkdir(parents=True, exist_ok=True)
+except OSError as e:
+    logger.warning("Could not create documents directory %s: %s", documents_path, e)
+
+if documents_path.exists():
+    app.mount("/files", StaticFiles(directory=str(documents_path)), name="files")
+else:
+    logger.warning("Static files not mounted because %s does not exist", documents_path)
 
 
 @app.get("/")
