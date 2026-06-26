@@ -35,3 +35,19 @@ def test_settings_from_yaml_reads_paperless_token_from_env(tmp_path, monkeypatch
 
     s = Settings.from_yaml(str(cfg))
     assert s.paperless.api_token == "test-paperless-token"
+
+
+def test_settings_from_yaml_reads_legacy_paperless_api_token_from_env(tmp_path, monkeypatch):
+    monkeypatch.delenv("PAPERLESS_TOKEN", raising=False)
+    monkeypatch.setenv("PAPERLESS_API_TOKEN", "legacy-paperless-token")
+
+    cfg = tmp_path / "config.yaml"
+    cfg.write_text(
+        "paperless:\n"
+        "  enabled: true\n"
+        "  url: http://paperless.lan.internal:8000\n"
+        "  verify_ssl: false\n"
+    )
+
+    s = Settings.from_yaml(str(cfg))
+    assert s.paperless.api_token == "legacy-paperless-token"

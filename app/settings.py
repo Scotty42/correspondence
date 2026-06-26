@@ -143,7 +143,8 @@ class Settings(BaseSettings):
             settings.database.url = db_url
 
         # Allow paperless API token via secrets.env / process env
-        paperless_token = os.getenv("PAPERLESS_TOKEN")
+        # Support both current and legacy variable names.
+        paperless_token = os.getenv("PAPERLESS_TOKEN") or os.getenv("PAPERLESS_API_TOKEN")
         if paperless_token:
             settings.paperless.api_token = paperless_token
 
