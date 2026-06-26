@@ -142,6 +142,11 @@ class Settings(BaseSettings):
         if db_url:
             settings.database.url = db_url
 
+        # Allow paperless API token via secrets.env / process env
+        paperless_token = os.getenv("PAPERLESS_TOKEN")
+        if paperless_token:
+            settings.paperless.api_token = paperless_token
+
         return settings
 
     def get_sender(self, letter_type: str = "business") -> dict:
