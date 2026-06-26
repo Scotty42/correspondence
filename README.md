@@ -1029,8 +1029,11 @@ paperless:
 ### Secrets (`secrets.env`)
 
 ```bash
-# paperless-ngx API token
+# paperless-ngx API token (preferred)
 PAPERLESS_TOKEN=your_token_here
+
+# Legacy name (also supported)
+# PAPERLESS_API_TOKEN=your_token_here
 
 # Other sensitive data
 ```
